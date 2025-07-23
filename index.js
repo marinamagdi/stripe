@@ -23,7 +23,7 @@ app.post("/create-checkout-session", async (req, res) => {
       cancel_url: "https://youtube.com",
     });
 
-    res.json({ sessionId: session.id });
+res.json({ url: session.url }); 
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
