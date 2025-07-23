@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = Stripe(sk_test_51OXgc4JLWRvuX0tE8RqQxERwR6cUNS1opc4ygKg7tp6Xl6L451KKStP0TYED4vmmcWeWGvRvlIBBj1kX59nRr15b00dZhNSWia);
 
 
 app.post("/create-checkout-session", async (req, res) => {
