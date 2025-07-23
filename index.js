@@ -10,17 +10,17 @@ app.use(express.json());
 
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
-// إنشاء جلسة الدفع
+
 app.post("/create-checkout-session", async (req, res) => {
   const { priceId } = req.body;
 
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      mode: "payment", // لو اشتراك خليه: "subscription"
+      mode: "payment", 
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: "https://example.com/success",
-      cancel_url: "https://example.com/cancel",
+      success_url: "https://google.com",
+      cancel_url: "https://youtube.com",
     });
 
     res.json({ sessionId: session.id });
