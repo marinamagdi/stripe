@@ -10,20 +10,19 @@ app.use(express.json());
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-
 app.post("/create-checkout-session", async (req, res) => {
-  const { priceId } = req.body;
+  const { priceId, successUrl, cancelUrl } = req.body;
 
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      mode: "payment", 
+      mode: "payment",
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: "https://google.com",
-      cancel_url: "https://youtube.com",
+      success_url: successUrl,
+      cancel_url: cancelUrl,
     });
 
-res.json({ url: session.url }); 
+    res.json({ url: session.url });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
