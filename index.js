@@ -11,13 +11,18 @@ app.use(express.json());
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 app.post("/create-checkout-session", async (req, res) => {
-  const { priceId, successUrl, cancelUrl } = req.body;
+  const { priceIds, successUrl, cancelUrl } = req.body;
 
   try {
+    const line_items = priceIds.map((price) => ({
+      price,
+      quantity: 1,
+    }));
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items,
       success_url: successUrl,
       cancel_url: cancelUrl,
     });
