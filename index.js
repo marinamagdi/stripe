@@ -12,12 +12,13 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 app.post("/create-checkout-session", async (req, res) => {
   const { priceIds, successUrl, cancelUrl } = req.body;
-
+  console.log(priceIds, successUrl, cancelUrl);
   try {
     const line_items = priceIds.map((price) => ({
       price,
       quantity: 1,
     }));
+    console.log(line_items);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -26,6 +27,7 @@ app.post("/create-checkout-session", async (req, res) => {
       success_url: successUrl,
       cancel_url: cancelUrl,
     });
+    console.log("Stripe session created:", session);
 
     res.json({ url: session.url });
   } catch (error) {
